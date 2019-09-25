@@ -2,11 +2,18 @@ import socket
 from base import Socket_base
 
 class Server(Socket_base):
+    def __init__(self, ip_address, port):
+        Socket_base.__init__(self, ip_address, port)
+        # logs for connection
+        self.connected_list = []
+
     def init(self):
-        pass
+        self.s_obj.bind((socket.gethostname(), self.port))
+        self.s_obj.listen(5)
 
     def build(self):
         pass
+        #TODO: implement the server's listening
 
 
 def main():

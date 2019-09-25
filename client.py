@@ -1,4 +1,10 @@
 import socket
+from base import Socket_base
+
+class Client(Socket_base):
+
+    def init(self):
+        self.s_obj.connect((socket.gethostname(), self.port))
 
 def main():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
