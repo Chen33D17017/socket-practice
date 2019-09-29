@@ -7,22 +7,25 @@ class Server(Socket_base):
         # logs for connection
         self.connected_list = []
 
-    def init(self):
-        self.s_obj.bind((socket.gethostname(), self.port))
-        self.s_obj.listen(5)
+    def init(self, listen_number=5):
+        self.socket_obj.bind((socket.gethostbyname('localhost'), 1234))
+        self.socket_obj.listen(listen_number)
 
     def build(self):
         pass
-        #TODO: implement the server's listening
-
+        # client_socket, address = self.socket_obj.accept()
+        # self.connected_list.append((client_socket, address))
 
 def main():
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    with Server(socket.gethostbyname('localhost'), 1234) as server:
+        client_socket, address = server.socket_obj.accept()
+        print(f"Connect to {address} has been established")
+        server.connected_list.append((client_socket, address))
+        for client_socket, address in server.connected_list:
+            print("send message")
+            server.send_msg(client_socket, "Hello Word")
 
-    client_socket, address = s.accept()
-    print(f"Connect to {address} has been established")
-    client_socket.send("Hello World".encode("utf-8"))
-    s.close()
+
 
 
 if __name__ == '__main__':
